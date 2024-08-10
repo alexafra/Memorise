@@ -11,45 +11,21 @@ import SwiftUI
 struct ContentView: View {
     let emojis = ["🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽","🤡", "👻", "😺", "👹", "💀", "👺", "🎃", "👿", "🤠", "👽",]
     
-    @State var cardCount = 4
     var body: some View {
-        VStack {
-            ScrollView {
-                cards
-            }.padding()
-            cardCountAdjusters
+        ScrollView {
+            cards
         }.padding()
-        
     }
     var cards: some View {
-        VStack {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 90)),]) {
-                ForEach (0..<cardCount , id: \.self) { index in
-                    CardView(isFaceUp: true, content: emojis[index] )
-                        .aspectRatio(2/3, contentMode: .fit)
-                }
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 90)),]) {
+            ForEach (emojis.indices , id: \.self) { index in
+                CardView(isFaceUp: true, content: emojis[index] )
+                    .aspectRatio(2/3, contentMode: .fit)
             }
         }
-        
         .foregroundColor(.orange)
     }
     
-    var cardCountAdjusters: some View {
-        HStack {
-            cardCountAdjuster(by: -3, symbol: "rectangle.stack.badge.minus.fill")
-            Spacer()
-            cardCountAdjuster(by: +3, symbol: "rectangle.stack.badge.plus.fill")
-        }.font(.largeTitle)
-    }
-    
-    func cardCountAdjuster (by offset: Int, symbol: String) -> some View {
-        Button(action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 0 || cardCount + offset >= emojis.count)
-    }
 }
 
 struct CardView : View {
@@ -61,12 +37,10 @@ struct CardView : View {
 //            let base = Circle()
             Group {
                 base.foregroundColor (.white)
-                base.strokeBorder(lineWidth: 5)
+                base.strokeBorder(lineWidth: 2)
                 Text(content)
                     .font(.largeTitle)
             }.opacity(isFaceUp ? 100 : 0)
-            
-            
             base.opacity(isFaceUp ? 0 : 100)
             
         }.onTapGesture {
@@ -83,3 +57,25 @@ struct CardView : View {
 #Preview {
     ContentView()
 }
+
+
+
+
+
+
+//var cardCountAdjusters: some View {
+//    HStack {
+//        cardCountAdjuster(by: -3, symbol: "rectangle.stack.badge.minus.fill")
+//        Spacer()
+//        cardCountAdjuster(by: +3, symbol: "rectangle.stack.badge.plus.fill")
+//    }.font(.largeTitle)
+//}
+//
+//func cardCountAdjuster (by offset: Int, symbol: String) -> some View {
+//    Button {
+//        cardCount += offset
+//    } label: {
+//        Image(systemName: symbol)
+//    }
+//    .disabled(cardCount + offset < 0 || cardCount + offset >= emojis.count)
+//}
