@@ -62,13 +62,13 @@ struct ContentView: View {
     }
     
     func ThemeAdjuster(newTheme: CardTheme) -> some View {
-        Button(action: {
+        Button {
             cardTheme = newTheme
             if (cardCount >= charactersInTheme.count) {
                 cardCount = 4
             }
             characters[newTheme]?.shuffle()
-        }, label: {
+        } label: {
             VStack {
                 switch newTheme {
                 case .animal:
@@ -85,7 +85,7 @@ struct ContentView: View {
                         .font(.footnote)
                 }
             }
-        }).font(.largeTitle)
+        }.font(.largeTitle)
 //            .foregroundStyle(.red)
 //            .disabled(newTheme == cardTheme)
     }
@@ -94,6 +94,7 @@ struct ContentView: View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 90))]) {
             ForEach(0..<cardCount, id: \.self ) { index in
                 CardView(cardContent: charactersInTheme[index])
+//                CardView(cardContent: charactersInTheme.randomElement() ?? "")
                     .aspectRatio(2/3, contentMode: .fit)
             }
         }
@@ -116,7 +117,7 @@ struct ContentView: View {
 
 struct CardView: View {
     let cardContent: String
-    @State var isFaceUp: Bool = false
+    @State var isFaceUp: Bool = true
     //Very interesting how isFaceUp remiains same as card system name changes
     //SOme memoisation (I think?) at play only updating essentials
     var body: some View {
